@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Form from "@components/Form";
 
@@ -19,7 +19,7 @@ const UpdatePrompt = () => {
       try {
         const response = await fetch(`/api/prompt/${promptId}`);
         if (!response.ok) throw new Error("Failed to fetch prompt details");
-        
+
         const data = await response.json();
         setPost({ prompt: data.prompt, tag: data.tag });
       } catch (error) {
@@ -63,13 +63,15 @@ const UpdatePrompt = () => {
   };
 
   return (
-    <Form
-      type="Edit"
-      post={post}
-      setPost={setPost}
-      submitting={submitting}
-      handleSubmit={updatePrompt}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Form
+        type="Edit"
+        post={post}
+        setPost={setPost}
+        submitting={submitting}
+        handleSubmit={updatePrompt}
+      />
+    </Suspense>
   );
 };
 
