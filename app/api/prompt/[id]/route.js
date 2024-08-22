@@ -20,9 +20,9 @@ export const GET = async (request, { params }) => {
 
 // PATCH request to update a prompt by ID
 export const PATCH = async (request, { params }) => {
-    const { prompt, tag } = await request.json();
-
     try {
+        const { prompt, tag } = await request.json();
+
         await connectToDB();
 
         // Find the existing prompt by ID
@@ -41,7 +41,7 @@ export const PATCH = async (request, { params }) => {
         return new Response(JSON.stringify({ message: "Successfully updated the prompt" }), { status: 200 });
     } catch (error) {
         console.error("Error updating prompt:", error);
-        return new Response(JSON.stringify({ error: "Error updating prompt" }), { status: 500 });
+        return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
     }
 };
 
@@ -60,6 +60,6 @@ export const DELETE = async (request, { params }) => {
         return new Response(JSON.stringify({ message: "Prompt deleted successfully" }), { status: 200 });
     } catch (error) {
         console.error("Error deleting prompt:", error);
-        return new Response(JSON.stringify({ error: "Error deleting prompt" }), { status: 500 });
+        return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
     }
 };
